@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: This template will create the S3 bucket that will host an Angular site
+Resources:
+  AngularAppBucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: production-ready-angular-app
+      Tags:
+        - Key: Application Name
+          Value: Angular Application
+        - Key: Company
+          Value: Lyrad Digital
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        RoutingRules:
+          - RoutingRuleCondition:
+              HttpErrorCodeReturnedEquals: '403'
+            RedirectRule:
+              ReplaceKeyPrefixWith: '#/'
+Outputs:
+  WebsiteURL:
+    Value: !GetAtt [AngularAppBucket, WebsiteURL]
+    Description: URL of the Angular website
