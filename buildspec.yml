@@ -6,13 +6,15 @@ env:
 
 phases:
   install:
-  # Install Angular CLI
-    - npm i -g @angular/cli@6.2.4
-  # Install project dependencies
-    - npm i
+    commands:
+    # Install Angular CLI
+      - npm i -g @angular/cli@6.2.4
+    # Install project dependencies
+      - npm i
   build:
-  # Build the project
-    - ng build --${BUILD_ENV}
+    commands:
+    # Build the project
+      - ng build --${BUILD_ENV}
 
 artifacts:
   files:
