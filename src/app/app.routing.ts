@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
-import { FeatureOneComponent } from './feature/feature-one/feature-one.component';
+import { FeatureOneComponent } from './feature-one/feature-one.component';
+import { FeatureTwoComponent } from './feature-two/feature-two.component';
 
 const routes: Routes = [
     {
         path:'feature-two',
-        loadChildren: 'app/feature/feature-two/feature-two.module#FeatureTwoModule'
+        component: FeatureTwoComponent
     },
     {
         path: 'feature-one',
