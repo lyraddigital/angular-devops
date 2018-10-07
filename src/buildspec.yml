@@ -1,0 +1,21 @@
+version: 0.2
+
+env:
+  variables:
+    BUILD_ENV: 'production'
+
+phases:
+  install:
+  # Install Angular CLI
+    - npm i -g @angular/cli@6.2.4
+  # Install project dependencies
+    - npm i
+  build:
+  # Build the project
+    - ng build --${BUILD_ENV}
+
+artifacts:
+  files:
+    - '**/*'
+  discard-paths: yes
+  base-directory: 'dist*'
