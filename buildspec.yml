@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    BUILD_ENV: 'production'
+    BUILD_ENV: production
 
 phases:
   install:
