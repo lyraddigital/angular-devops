@@ -1,9 +1,5 @@
 version: 0.2
 
-env:
-  variables:
-    BUILD_ENV: production
-
 phases:
   install:
     commands:
@@ -14,7 +10,7 @@ phases:
   build:
     commands:
     # Build the project
-      - ng build --${BUILD_ENV}
+      - ng build --production
 
 artifacts:
   files:
