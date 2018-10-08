@@ -3,7 +3,6 @@ version: 0.2
 env:
   variables:
     CHROME_BIN: "/usr/bin/chromium-browser"
-    DISPLAY: ":99.0"
 
 phases:
   install:

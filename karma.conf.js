@@ -4,7 +4,7 @@
 module.exports = function (config) {
   config.set({
     basePath: '',
-    browsers: ['ChromeHeadless'],
+    browsers: ['Chromium'],
     frameworks: ['jasmine', '@angular/cli'],
     plugins: [
       require('karma-jasmine'),
@@ -14,8 +14,8 @@ module.exports = function (config) {
       require('@angular/cli/plugins/karma')
     ],
     customLaunchers: {
-      ChromeHeadlessCI: {
-        base: 'ChromeHeadless',
+      ChromiumCI: {
+        base: 'Chromium',
         flags: ['--no-sandbox']
       }
     },
