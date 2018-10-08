@@ -12,7 +12,7 @@ phases:
     # Headless Chrome
       - apt-get install -y libappindicator1 fonts-liberation
       - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      - dpkg -i google-chrome*.deb
+      - sudo dpkg -i google-chrome*.deb
     # Install Angular CLI
       - npm i -g @angular/cli@6.2.4
     # Install project dependencies
