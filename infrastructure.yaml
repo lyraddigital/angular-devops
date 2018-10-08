@@ -12,12 +12,8 @@ Resources:
           Value: Lyrad Digital
       WebsiteConfiguration:
         IndexDocument: index.html
-        RoutingRules:
-          - RoutingRuleCondition:
-              HttpErrorCodeReturnedEquals: '403'
-            RedirectRule:
-              ReplaceKeyPrefixWith: '#/'
+        ErrorDocument: index.html
 Outputs:
   WebsiteURL:
     Value: !GetAtt [AngularAppBucket, WebsiteURL]
-    Description: URL of the Angular website
+    Description: URL of the Angular Website

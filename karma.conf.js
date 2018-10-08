@@ -15,7 +15,7 @@ module.exports = function (config) {
     customLaunchers: {
       ChromiumHeadless: {
         base: 'Chromium',
-        flags: ['--headless']
+        flags: ['--headless', '--no-sandbox']
       }
     },
     client:{
