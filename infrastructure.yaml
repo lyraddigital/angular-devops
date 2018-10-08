@@ -16,4 +16,4 @@ Resources:
 Outputs:
   WebsiteURL:
     Value: !GetAtt [AngularAppBucket, WebsiteURL]
-    Description: URL of the Angular Website
+    Description: URL of the Angular Website to browse
