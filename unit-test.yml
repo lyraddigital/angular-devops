@@ -1,0 +1,13 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+    # Install Angular CLI
+      - npm i -g @angular/cli@6.2.4
+    # Install project dependencies
+      - npm i
+  build:
+    commands:
+    # Run unit tests
+      - ng test
