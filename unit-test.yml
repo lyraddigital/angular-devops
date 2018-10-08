@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    CHROME_BIN: "/usr/bin/chromium"
+    CHROME_BIN: "/usr/bin/chromium-browser"
     DISPLAY: ":99.0"
 
 phases:
@@ -11,7 +11,7 @@ phases:
     # Update libs
       - apt-get update
     # Headless Chrome
-      - sudo apt-get --assume-yes install chromium-browser
+      - apt-get --assume-yes install chromium-browser
     # Install Angular CLI
       - npm i -g @angular/cli@6.2.4
     # Install project dependencies
