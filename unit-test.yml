@@ -19,4 +19,4 @@ phases:
   build:
     commands:
     # Run unit tests
-      - ng test
+      - npm run test:ci
