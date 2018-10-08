@@ -10,7 +10,11 @@ phases:
     # Update libs
       - apt-get update
     # Headless Chrome
-      - apt-get install -y libappindicator1 fonts-liberation
+      - apt-get install -y libxss1
+      - apt-get install -y libasound2
+      - apt-get install -y libnspr4
+      - apt-get install -y libnss3
+      - apt-get install -y libx11-xcb1
       - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
       - sudo dpkg -i google-chrome*.deb
     # Install Angular CLI
