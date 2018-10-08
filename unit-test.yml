@@ -3,10 +3,13 @@ version: 0.2
 env:
   variables:
     CHROME_BIN: "/usr/bin/google-chrome"
+    DISPLAY: ":99.0"
 
 phases:
   install:
     commands:
+    # Something
+      - sh -e /etc/init.d/xvfb start
     # Update libs
       - apt-get update
     # Headless Chrome
