@@ -106,7 +106,7 @@ Resources:
                 Action:
                   - 'codebuild:StartBuild'
                   - 'codebuild:BatchGetBuilds'
-                Resource: !Sub 'arn:aws:codebuild:::project/AngularAppCodeBuild-${EnvironmentName}'
+                Resource: !Sub 'arn:aws:codebuild:${AWS::Region}:*:project/AngularAppCodeBuild-${EnvironmentName}'
               -
                 Effect: Allow
                 Action:
