@@ -49,12 +49,19 @@ Resources:
                 Effect: Allow
                 Action:
                   - 'logs:CreateLogGroup'
+                Resource: !Sub 'arn:aws:logs:${AWS::Region}:*:log-group:/aws/codebuild/AngularAppCodeBuild-${EnvironmentName}:log-stream:'
+              - 
+                Effect: Allow
+                Action:
                   - 'logs:CreateLogStream'
-                  - 'logs:PutLogEvents'
-                  - 's3:PutObject'
+                  - 'logs:PutLogEvents' # This is not working yet
+                Resource: !Sub 'arn:aws:logs:${AWS::Region}:*:log-group:/aws/codebuild/AngularAppCodeBuild-${EnvironmentName}:log-stream:*'
+              -
+                Effect: Allow
+                Action:
                   - 's3:GetObject'
-                  - 's3:GetObjectVersion'
-                Resource: '*'
+                  - 's3:PutObject'
+                Resource: !Sub 'arn:aws:s3:::angular-devops-pipeline-artifacts-${EnvironmentName}/*'
   AngularAppDeployRole:
     Type: AWS::IAM::Role
     Properties:
@@ -78,10 +85,19 @@ Resources:
                 Effect: Allow
                 Action:
                   - 'logs:CreateLogGroup'
+                Resource: !Sub 'arn:aws:logs:${AWS::Region}:*:log-group:/aws/codebuild/AngularAppCodeDeploy-${EnvironmentName}:log-stream:'
+              - 
+                Effect: Allow
+                Action:
                   - 'logs:CreateLogStream'
-                  - 'logs:PutLogEvents'
-                  - 's3:*'
-                Resource: '*'
+                  - 'logs:PutLogEvents' # This is not working yet
+                Resource: !Sub 'arn:aws:logs:${AWS::Region}:*:log-group:/aws/codebuild/AngularAppCodeDeploy-${EnvironmentName}:log-stream:*'
+              -
+                Effect: Allow
+                Action:
+                  - 's3:GetObject'
+                  - 's3:PutObject'
+                Resource: !Sub 'arn:aws:s3:::angular-devops-pipeline-artifacts-${EnvironmentName}/*'
   AngularAppCodePipelineRole:
     Type: AWS::IAM::Role
     Properties:
@@ -106,7 +122,9 @@ Resources:
                 Action:
                   - 'codebuild:StartBuild'
                   - 'codebuild:BatchGetBuilds'
-                Resource: !Sub 'arn:aws:codebuild:${AWS::Region}:*:project/AngularAppCodeBuild-${EnvironmentName}'
+                Resource: 
+                  - !Sub 'arn:aws:codebuild:${AWS::Region}:*:project/AngularAppCodeBuild-${EnvironmentName}'
+                  - !Sub 'arn:aws:codebuild:${AWS::Region}:*:project/AngularAppCodeDeploy-${EnvironmentName}'
               -
                 Effect: Allow
                 Action:
@@ -121,6 +139,22 @@ Resources:
       Source:
         Type: CODEPIPELINE
         BuildSpec: build.yml
+      Environment: 
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/nodejs:10.1.0
+        Type: LINUX_CONTAINER
+      Artifacts:
+        Name: Deployments
+        Type: CODEPIPELINE
+  AngularAppCodeDeployProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: !Sub AngularAppCodeDeploy-${EnvironmentName}
+      Description: !Sub Code Deploy Project for AngularApp-${EnvironmentName}
+      ServiceRole: !Ref AngularAppDeployRole
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec: !Sub 'aws s3 cp --recursive --acl public-read . s3://angular-devops-app-${EnvironmentName}/'
       Environment: 
         ComputeType: BUILD_GENERAL1_SMALL
         Image: aws/codebuild/nodejs:10.1.0
@@ -174,3 +208,17 @@ Resources:
                 - Name: Deployments
               Configuration:
                 ProjectName: !Ref AngularAppCodeBuildProject
+        -
+          Name: Deployment
+          Actions:
+            -
+              Name: Deployment
+              InputArtifacts:
+                - Name: Deployments
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Version: 1
+                Provider: CodeBuild
+              Configuration:
+                ProjectName: !Ref AngularAppCodeDeployProject
