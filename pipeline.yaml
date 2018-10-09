@@ -154,11 +154,15 @@ Resources:
       ServiceRole: !Ref AngularAppDeployRole
       Source:
         Type: CODEPIPELINE
-        BuildSpec: !Sub 'aws s3 cp --recursive --acl public-read . s3://angular-devops-app-${EnvironmentName}/'
-      Environment: 
+        BuildSpec: !Sub deploy.yml
+      Environment:
         ComputeType: BUILD_GENERAL1_SMALL
         Image: aws/codebuild/nodejs:10.1.0
         Type: LINUX_CONTAINER
+        EnvironmentVariables:
+          - Name: APPLICATION_DEPLOY_BUCKET_NAME
+          - Type: PLAINTEXT
+          - Value: !Sub angular-devops-app-${EnvironmentName}
       Artifacts:
         Name: Deployments
         Type: CODEPIPELINE

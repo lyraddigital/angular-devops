@@ -1,0 +1,6 @@
+version: 0.2
+
+phases:
+  post_build:
+    commands:
+      - aws s3 cp --recursive --acl public-read . s3://${APPLICATION_DEPLOY_BUCKET_NAME}/
