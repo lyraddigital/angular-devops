@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    CHROME_BIN: "/usr/bin/chrome"
+    CHROME_BIN: "/usr/bin/google-chrome-stable"
 
 phases:
   install:
