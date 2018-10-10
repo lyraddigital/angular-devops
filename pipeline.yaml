@@ -90,14 +90,22 @@ Resources:
                 Effect: Allow
                 Action:
                   - 'logs:CreateLogStream'
-                  - 'logs:PutLogEvents' # This is not working yet
+                  - 'logs:PutLogEvents'
                 Resource: !Sub 'arn:aws:logs:${AWS::Region}:*:log-group:/aws/codebuild/AngularAppCodeDeploy-${EnvironmentName}:log-stream:*'
               -
                 Effect: Allow
                 Action:
                   - 's3:GetObject'
-                  - 's3:PutObject'
                 Resource: !Sub 'arn:aws:s3:::angular-devops-pipeline-artifacts-${EnvironmentName}/*'
+              -
+                Effect: Allow
+                Action:
+                  - 's3:PutObject'
+                  - 's3:PutObjectAcl'
+                Resource: '*'
+                  #- 'arn:aws:s3:::angular-devops-pipeline-artifacts-${EnvironmentName}/' 
+                  #- 'arn:aws:s3:::angular-devops-pipeline-artifacts-${EnvironmentName}/*' 
+                  # !Sub 'arn:aws:s3:::angular-devops-app-${EnvironmentName}/*'
   AngularAppCodePipelineRole:
     Type: AWS::IAM::Role
     Properties:
@@ -154,15 +162,11 @@ Resources:
       ServiceRole: !Ref AngularAppDeployRole
       Source:
         Type: CODEPIPELINE
-        BuildSpec: !Sub deploy.yml
+        BuildSpec: !Sub "version: 0.2\nphases:\n  post_build:\n    commands:\n      - aws s3 cp --recursive --acl public-read . s3://angular-devops-app-${EnvironmentName}/\n\nartifacts:\n  files:\n    - /"
       Environment:
         ComputeType: BUILD_GENERAL1_SMALL
         Image: aws/codebuild/nodejs:10.1.0
         Type: LINUX_CONTAINER
-        EnvironmentVariables:
-          - Name: APPLICATION_DEPLOY_BUCKET_NAME
-          - Type: PLAINTEXT
-          - Value: !Sub angular-devops-app-${EnvironmentName}
       Artifacts:
         Name: Deployments
         Type: CODEPIPELINE
