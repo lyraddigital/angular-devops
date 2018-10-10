@@ -10,7 +10,7 @@ phases:
   build:
     commands:
     # Build the project
-      - ng build --prod
+      - npm run build:ci
 
 artifacts:
   files:
