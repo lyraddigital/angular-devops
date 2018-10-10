@@ -62,6 +62,41 @@ Resources:
                   - 's3:GetObject'
                   - 's3:PutObject'
                 Resource: !Sub 'arn:aws:s3:::angular-devops-pipeline-artifacts-${EnvironmentName}/*'
+  AngularAppTestRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - 
+            Effect: Allow
+            Principal:
+              Service:
+                - codebuild.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        -
+          PolicyName: !Sub AngularAppTestPolicy-${EnvironmentName}
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - 
+                Effect: Allow
+                Action:
+                  - 'logs:CreateLogGroup'
+                Resource: !Sub 'arn:aws:logs:${AWS::Region}:*:log-group:/aws/codebuild/AngularAppCodeTest-${EnvironmentName}:log-stream:'
+              - 
+                Effect: Allow
+                Action:
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource: !Sub 'arn:aws:logs:${AWS::Region}:*:log-group:/aws/codebuild/AngularAppCodeTest-${EnvironmentName}:log-stream:*'
+              -
+                Effect: Allow
+                Action:
+                  - 's3:GetObject'
+                Resource: !Sub 'arn:aws:s3:::angular-devops-pipeline-artifacts-${EnvironmentName}/*'
   AngularAppDeployRole:
     Type: AWS::IAM::Role
     Properties:
@@ -132,6 +167,7 @@ Resources:
                   - 'codebuild:BatchGetBuilds'
                 Resource: 
                   - !Sub 'arn:aws:codebuild:${AWS::Region}:*:project/AngularAppCodeBuild-${EnvironmentName}'
+                  - !Sub 'arn:aws:codebuild:${AWS::Region}:*:project/AngularAppCodeTest-${EnvironmentName}'
                   - !Sub 'arn:aws:codebuild:${AWS::Region}:*:project/AngularAppCodeDeploy-${EnvironmentName}'
               -
                 Effect: Allow
@@ -153,6 +189,22 @@ Resources:
         Type: LINUX_CONTAINER
       Artifacts:
         Name: Deployments
+        Type: CODEPIPELINE
+  AngularAppCodeTestProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: !Sub AngularAppCodeTest-${EnvironmentName}
+      Description: !Sub Code Test Project for AngularApp-${EnvironmentName}
+      ServiceRole: !Ref AngularAppTestRole
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec: unit-test.yml
+      Environment: 
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/nodejs:10.1.0
+        Type: LINUX_CONTAINER
+      Artifacts:
+        Name: TestResults
         Type: CODEPIPELINE
   AngularAppCodeDeployProject:
     Type: AWS::CodeBuild::Project
@@ -216,6 +268,20 @@ Resources:
                 - Name: Deployments
               Configuration:
                 ProjectName: !Ref AngularAppCodeBuildProject
+        -
+          Name: Unit_Tests
+          Actions:
+            -
+              Name: Test
+              InputArtifacts:
+                - Name: SourceCode
+              ActionTypeId:
+                Category: Test
+                Owner: AWS
+                Version: 1
+                Provider: CodeBuild
+              Configuration:
+                ProjectName: !Ref AngularAppCodeTestProject
         -
           Name: Deployment
           Actions:
