@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'aws-angular6'`, () => {
+  it(`should have as title 'Angular DevOps'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('aws-angular6');
+    expect(app.title).toEqual('Angular DevOps');
   });
 
   it('should render title in a h1 tag', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to aws-angular6!');
+    expect(compiled.querySelector('h1').textContent).toContain('Welcome to Angular DevOps!');
   });
 });

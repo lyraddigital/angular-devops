@@ -1,0 +1,27 @@
+ul {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+}
+
+li:first-of-type {
+    margin-right: 20px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    border: 1px solid #DDD;
+    padding: 5px;
+}
+
+a:hover {
+    background: white;
+    color: #333;
+}
+
+.feature-section {
+    text-align: center;
+    border: 1px solid #DDD;
+    box-shadow: 0 1px 3px -1px rgba(0,0,0,0.75);
+}
