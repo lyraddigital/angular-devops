@@ -1,6 +1,4 @@
-# AwsAngular6
-
-![Build Status](https://codebuild.us-east-1.amazon.com/badges?uuid=...&branch=master)
+# Angular DevOps
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.4.
 
