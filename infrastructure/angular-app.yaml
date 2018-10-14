@@ -1,0 +1,15 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: This template will create the S3 bucket that will host our angular application
+Resources:
+  AngularAppBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: angular-devops-production
+      Tags:
+        - Key: Application Name
+          Value: Angular DevOps
+        - Key: Company
+          Value: Lyrad Digital
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: index.html
