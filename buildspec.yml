@@ -1,11 +1,11 @@
 version: 0.2
 
 phases:
-  # install:
-  #   commands:
-  #     - echo Running install phase
-  #   finally:
-  #     - echo Executing install phase finally
+  install:
+    commands:
+      - echo Running install phase
+    finally:
+      - echo Executing install phase finally
   pre_build:
     commands:
       - echo Running pre_build phase
