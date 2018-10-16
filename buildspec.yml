@@ -16,11 +16,11 @@ phases:
       - echo Running build phase
     finally:
       - echo Executing build phase finally
-  # post_build:
-  #   commands:
-  #     - echo Running post_build phase
-  #   finally:
-  #     - echo Executing post_build phase
+  post_build:
+    commands:
+      - echo Running post_build phase
+    finally:
+      - echo Executing post_build phase
 artifacts:
   files:
     - '**/*'
