@@ -1,10 +1,18 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: This template will create the S3 bucket that will host our angular application
+Parameters:
+  EnvironmentName:
+    Type: String
+    Description: The name of the environment this S3 Bucket will host the website for.
+    MinLength: 3
+    MaxLength: 48
+    AllowedPattern: ^[a-z]*$
+    ConstraintDescription: Environment name must be lowercase only and be between 3 and 48 characters.
 Resources:
   AngularAppBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: angular-devops-production
+      BucketName: !Sub angular-devops-${EnvironmentName}
       Tags:
         - Key: Application Name
           Value: Angular DevOps
@@ -13,3 +21,7 @@ Resources:
       WebsiteConfiguration:
         IndexDocument: index.html
         ErrorDocument: index.html
+Outputs:
+  WebsiteURL:
+    Value: !GetAtt [AngularAppBucket, WebsiteURL]
+    Description: URL of the Angular website to browse
