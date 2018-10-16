@@ -6,11 +6,11 @@ phases:
   #     - echo Running install phase
   #   finally:
   #     - echo Executing install phase finally
-  # pre_build:
-  #   commands:
-  #     - echo Running pre_build phase
-  #   finally:
-  #     - echo Executing pre_build phase finally
+  pre_build:
+    commands:
+      - echo Running pre_build phase
+    finally:
+      - echo Executing pre_build phase finally
   build:
     commands:
       - echo Running build phase
