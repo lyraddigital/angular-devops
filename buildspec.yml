@@ -18,7 +18,7 @@ phases:
   build:
     commands:
       - echo Running build phase
-      - echo Environment is $(ENVIRONMENT_NAME) 
+      - echo Environment is $ENVIRONMENT_NAME
     finally:
       - echo Executing build phase finally
   post_build:
