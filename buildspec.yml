@@ -2,4 +2,5 @@ version: 0.2
 
 phases:
   build:
-    - echo Executing Build
+    commands:
+      - echo Executing Build
