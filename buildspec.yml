@@ -10,6 +10,9 @@ phases:
 
 artifacts:
   files:
-    - '**/*'
+    - '**/*.html'
+    - '**/*.js'
+    - '**/*.css'
+    - '**/*.ico'
   discard-paths: yes
   base-directory: 'dist/angular-devops'
