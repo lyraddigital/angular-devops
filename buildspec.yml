@@ -10,4 +10,5 @@ phases:
 
 artifacts:
   files:
-    - 'dist/*'
+    - '**/*'
+  base-directory: 'dist/angular-devops'
