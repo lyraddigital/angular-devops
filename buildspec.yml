@@ -7,3 +7,12 @@ phases:
   build:
     commands:
       - npm run build:ci
+
+artifacts:
+  files:
+    - '**/*.html'
+    - '**/*.js'
+    - '**/*.css'
+    - '**/*.ico'
+  discard-paths: yes
+  base-directory: 'dist/angular-devops'
