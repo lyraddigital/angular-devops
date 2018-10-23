@@ -18,7 +18,7 @@ phases:
       - npm run test:ci
   post_build:
     commands:
-      - aws s3 sync ./dist/angular-devops s3://angular-devops-production --acl 'public-read'
+      - aws s3 sync ./dist/angular-devops s3://angular-devops-production --acl 'public-read' --delete
 
 artifacts:
   files:
